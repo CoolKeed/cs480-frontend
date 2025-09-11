@@ -1,6 +1,13 @@
+import { useNavigate } from 'react-router-dom'
 import { user, appConfig } from '../../data/mockData'
 
 export default function Header() {
+  const navigate = useNavigate();
+
+  const handleTitleClick = () => {
+    navigate('/');
+  };
+
   return (
     <div style={{
       display: 'flex', 
@@ -11,12 +18,18 @@ export default function Header() {
       backgroundColor: 'white',
       height: '50px'
     }}>
-      <h1 style={{
-        fontSize: '14px', 
-        fontWeight: '500', 
-        color: '#111827', 
-        margin: 0
-      }}>
+      <h1 
+        onClick={handleTitleClick}
+        style={{
+          fontSize: '14px', 
+          fontWeight: '500', 
+          color: '#111827', 
+          margin: 0,
+          cursor: 'pointer'
+        }}
+        onMouseEnter={(e) => e.target.style.color = '#3b82f6'}
+        onMouseLeave={(e) => e.target.style.color = '#111827'}
+      >
         {appConfig.title}
       </h1>
       

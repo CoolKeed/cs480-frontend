@@ -9,10 +9,6 @@ export default function Sidebar() {
     navigate(`/client/${clientId}`);
   };
 
-  const handleDashboardClick = () => {
-    navigate('/');
-  };
-
   const handleCreateClient = () => {
     navigate('/create-client');
   };
@@ -21,10 +17,7 @@ export default function Sidebar() {
     <div style={{width: '240px', backgroundColor: 'white', borderRight: '1px solid #e5e7eb', height: '100%', display: 'flex', flexDirection: 'column'}}>
       <div style={{flex: 1, padding: '20px'}}>
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px'}}>
-          <h2 
-            onClick={handleDashboardClick}
-            style={{fontSize: '14px', fontWeight: '600', color: '#111827', margin: 0, cursor: 'pointer'}}
-          >
+          <h2 style={{fontSize: '14px', fontWeight: '600', color: '#111827', margin: 0}}>
             Clients
           </h2>
           <button 
