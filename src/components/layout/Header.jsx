@@ -1,3 +1,5 @@
+import { user, appConfig } from '../../data/mockData'
+
 export default function Header() {
   return (
     <div style={{
@@ -15,27 +17,38 @@ export default function Header() {
         color: '#111827', 
         margin: 0
       }}>
-        Client Factpack 360
+        {appConfig.title}
       </h1>
       
-      <div style={{
-        width: '30px', 
-        height: '30px', 
-        backgroundColor: '#e5e7eb', 
-        borderRadius: '50%', 
-        border: '1px solid #d1d5db', 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center'
-      }}>
+      {user.profileImage ? (
+        <img 
+          src={user.profileImage} 
+          alt={user.fullName} 
+          style={{
+            width: '30px', 
+            height: '30px', 
+            borderRadius: '50%', 
+            border: '1px solid #d1d5db',
+            objectFit: 'cover'
+          }}
+        />
+      ) : (
         <div style={{
-          width: '22px', 
-          height: '22px', 
-          backgroundColor: 'white', 
+          width: '30px', 
+          height: '30px', 
+          backgroundColor: '#3b82f6', 
           borderRadius: '50%', 
-          border: '1px solid #9ca3af'
-        }}></div>
-      </div>
+          border: '1px solid #d1d5db', 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center',
+          color: 'white',
+          fontSize: '12px',
+          fontWeight: '500'
+        }}>
+          {user.avatar}
+        </div>
+      )}
     </div>
   )
 }
