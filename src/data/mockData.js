@@ -61,25 +61,27 @@ export const clientDetails = {
         title: "Tesla announces new Gigafactory in Mexico",
         description: "New manufacturing facility will boost production capacity and create thousands of jobs in Monterrey region.",
         timestamp: "2 hours ago",
-        source: "Reuters"
+        source: "Reuters",
+        sourceUrl: "https://www.reuters.com/placeholder-article-link-1"
       },
       {
         id: 2,
         title: "Electric vehicle market share reaches 18% in Q3",
         description: "Industry analysis shows continued growth in EV adoption with Tesla maintaining market leadership position.",
         timestamp: "5 hours ago", 
-        source: "Bloomberg"
+        source: "Bloomberg",
+        sourceUrl: "https://www.bloomberg.com/placeholder-article-link-2"
       },
       {
         id: 3,
         title: "Sustainable energy initiatives expand globally",
         description: "New solar panel installations and battery storage projects announced across European markets.",
         timestamp: "1 day ago",
-        source: "Financial Times"
+        source: "Financial Times",
+        sourceUrl: "https://www.ft.com/placeholder-article-link-3"
       }
     ]
   }
-  // Add more client details as needed
 };
 
 export const clientBiographies = { //cleint page
@@ -148,6 +150,9 @@ export const familyTreeData = {
         spouse: 'sarah',
         children: ['michael', 'emma'],
         parents: ['robert', 'mary'],
+        age: 45,
+        occupation: 'CEO & Founder',
+        gender: 'Male',
         x: 300,
         y: 200
       },
@@ -157,6 +162,9 @@ export const familyTreeData = {
         relation: 'spouse',
         spouse: 'james',
         children: ['michael', 'emma'],
+        age: 42,
+        occupation: 'Marketing Director',
+        gender: 'Female',
         x: 450,
         y: 200
       },
@@ -166,6 +174,8 @@ export const familyTreeData = {
         relation: 'son',
         parents: ['james', 'sarah'],
         age: 16,
+        occupation: 'High School Student',
+        gender: 'Male',
         x: 250,
         y: 300
       },
@@ -175,6 +185,8 @@ export const familyTreeData = {
         relation: 'daughter',
         parents: ['james', 'sarah'],
         age: 14,
+        occupation: 'Middle School Student',
+        gender: 'Female',
         x: 400,
         y: 300
       },
@@ -184,6 +196,9 @@ export const familyTreeData = {
         relation: 'father',
         spouse: 'mary',
         children: ['james'],
+        age: 72,
+        occupation: 'Retired Engineer',
+        gender: 'Male',
         x: 200,
         y: 100
       },
@@ -193,6 +208,9 @@ export const familyTreeData = {
         relation: 'mother',
         spouse: 'robert',
         children: ['james'],
+        age: 69,
+        occupation: 'Retired Teacher',
+        gender: 'Female',
         x: 350,
         y: 100
       }
@@ -200,7 +218,7 @@ export const familyTreeData = {
   }
 };
 
-export const updates = [ //dashboard
+export const updates = [//dashbaord
   {
     id: 1,
     title: "Elon Musk announces new Tesla factory in Mexico",
@@ -208,6 +226,7 @@ export const updates = [ //dashboard
     clientId: 1,
     clientName: "James Harper",
     source: "Reuters",
+    sourceUrl: "https://www.reuters.com/placeholder-dashboard-link-1",
     timestamp: "2 hours ago",
     type: "company_news",
     completed: true
@@ -219,6 +238,7 @@ export const updates = [ //dashboard
     clientId: 2,
     clientName: "Emily Harper",
     source: "TechCrunch",
+    sourceUrl: "https://www.techcrunch.com/placeholder-dashboard-link-2",
     timestamp: "4 hours ago",
     type: "product_launch",
     completed: true
@@ -230,6 +250,7 @@ export const updates = [ //dashboard
     clientId: 3,
     clientName: "Tyler Redd",
     source: "Bloomberg",
+    sourceUrl: "https://www.bloomberg.com/placeholder-dashboard-link-3",
     timestamp: "6 hours ago",
     type: "expansion",
     completed: true
@@ -241,6 +262,7 @@ export const updates = [ //dashboard
     clientId: 4,
     clientName: "Jessica Wells",
     source: "Financial Times",
+    sourceUrl: "https://www.ft.com/placeholder-dashboard-link-4",
     timestamp: "1 day ago",
     type: "financial",
     completed: false

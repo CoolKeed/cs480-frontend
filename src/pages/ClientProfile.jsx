@@ -158,31 +158,43 @@ export default function ClientProfile() {
           </div>
         </div>
 
-        {/* Recent News & Social Activity - NOW SECOND */}
-        <div style={{marginBottom: '30px'}}>
-          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px'}}>
-            <h2 style={{fontSize: '18px', fontWeight: '600', color: '#111827', margin: 0}}>Recent News & Social Activity</h2>
-            <span style={{fontSize: '12px', color: '#3b82f6', cursor: 'pointer'}}>→</span>
-          </div>
-          
-          <div style={{display: 'flex', flexDirection: 'column', gap: '15px'}}>
-            {client.recentNews.map((news) => (
-              <div key={news.id} style={{display: 'flex', alignItems: 'flex-start', gap: '10px'}}>
-                <div style={{width: '20px', height: '20px', border: '2px solid #9ca3af', backgroundColor: '#f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '0px', flexShrink: 0}}>
-                  <div style={{width: '8px', height: '5px', borderLeft: '2px solid #6b7280', borderBottom: '2px solid #6b7280', transform: 'rotate(-45deg)', marginTop: '-2px'}}></div>
-                </div>
-                <div style={{flex: 1}}>
-                  <p style={{fontSize: '13px', color: '#111827', fontWeight: '500', margin: '0 0 5px 0', lineHeight: '1.3'}}>{news.title}</p>
-                  <p style={{fontSize: '13px', color: '#6b7280', margin: '0 0 5px 0', lineHeight: '1.4'}}>{news.description}</p>
-                  <div style={{display: 'flex', alignItems: 'center', gap: '15px', fontSize: '11px', color: '#9ca3af'}}>
-                    <span>Source: {news.source}</span>
-                    <span>{news.timestamp}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
+{/* Recent News & Social Activity */}
+<div style={{marginBottom: '30px'}}>
+  <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px'}}>
+    <h2 style={{fontSize: '18px', fontWeight: '600', color: '#111827', margin: 0}}>Recent News & Social Activity</h2>
+    <span style={{fontSize: '12px', color: '#3b82f6', cursor: 'pointer'}}>→</span>
+  </div>
+  
+  <div style={{display: 'flex', flexDirection: 'column', gap: '15px'}}>
+    {client.recentNews.map((news) => (
+      <div key={news.id} style={{display: 'flex', alignItems: 'flex-start', gap: '10px'}}>
+        <div style={{width: '20px', height: '20px', border: '2px solid #9ca3af', backgroundColor: '#f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '0px', flexShrink: 0}}>
+          <div style={{width: '8px', height: '5px', borderLeft: '2px solid #6b7280', borderBottom: '2px solid #6b7280', transform: 'rotate(-45deg)', marginTop: '-2px'}}></div>
+        </div>
+        <div style={{flex: 1}}>
+          <p style={{fontSize: '13px', color: '#111827', fontWeight: '500', margin: '0 0 5px 0', lineHeight: '1.3'}}>{news.title}</p>
+          <p style={{fontSize: '13px', color: '#6b7280', margin: '0 0 5px 0', lineHeight: '1.4'}}>{news.description}</p>
+          <div style={{display: 'flex', alignItems: 'center', gap: '15px', fontSize: '11px', color: '#9ca3af'}}>
+            <span>
+              Source: 
+              <a 
+                href={news.sourceUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={{color: '#3b82f6', textDecoration: 'none', marginLeft: '4px'}}
+                onMouseEnter={(e) => e.target.style.textDecoration = 'underline'}
+                onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
+              >
+                {news.source}
+              </a>
+            </span>
+            <span>{news.timestamp}</span>
           </div>
         </div>
+      </div>
+    ))}
+  </div>
+</div>
 
         {/* Family Tree */}
         <div>

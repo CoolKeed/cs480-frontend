@@ -13,7 +13,7 @@ export default function Dashboard() {
         <div>
           <h2 style={{fontSize: '18px', fontWeight: '600', color: '#111827', margin: '0 0 20px 0'}}>Latest Updates</h2>
           
-          <div style={{display: 'flex', flexDirection: 'column', gap: '15px'}}>
+          <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
             {updates.map((update) => (
               <div key={update.id} style={{display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '10px 0', borderBottom: '1px solid #f3f4f6'}}>
                 <div style={{width: '20px', height: '20px', border: '2px solid #9ca3af', backgroundColor: '#f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '0px', flexShrink: 0}}>
@@ -29,7 +29,19 @@ export default function Dashboard() {
                   <p style={{fontSize: '13px', color: '#6b7280', margin: '0 0 5px 0', lineHeight: '1.4'}}>{update.description}</p>
                   <div style={{display: 'flex', alignItems: 'center', gap: '15px', fontSize: '11px', color: '#9ca3af'}}>
                     <span>Client: {update.clientName}</span>
-                    <span>Source: {update.source}</span>
+                    <span>
+                      Source: 
+                      <a 
+                        href={update.sourceUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        style={{color: '#3b82f6', textDecoration: 'none', marginLeft: '4px'}}
+                        onMouseEnter={(e) => e.target.style.textDecoration = 'underline'}
+                        onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
+                      >
+                        {update.source}
+                      </a>
+                    </span>
                     <span>{update.timestamp}</span>
                   </div>
                 </div>
