@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import Layout from '../components/layout/Layout'
 import { clientDetails, clientBiographies, familyTreeData } from '../data/mockData'
@@ -9,6 +10,17 @@ export default function ClientProfile() {
   const client = clientDetails[parseInt(clientId)];
   const biography = clientBiographies[parseInt(clientId)];
   const familyData = familyTreeData[parseInt(clientId)];
+  
+  // Tab state management
+  const [activeTab, setActiveTab] = useState('overview');
+
+  // Dynamic tabs configuration
+  const tabs = [
+    { key: 'overview', label: 'Overview' },
+    { key: 'biography', label: 'Biography' },
+    { key: 'news', label: 'News & Activity' },
+    { key: 'family', label: 'Family Tree' }
+  ];
   
   if (!client || !biography) {
     return (
@@ -22,6 +34,188 @@ export default function ClientProfile() {
       </Layout>
     );
   }
+
+  const renderTabContent = () => {
+    switch(activeTab) {
+      case 'overview':
+        return (
+          <div>
+            {/* Financial Stats */}
+            <div style={{display: 'flex', gap: '40px', marginBottom: '30px'}}>
+              <div>
+                <p style={{fontSize: '12px', color: '#6b7280', margin: '0 0 5px 0'}}>Net Worth</p>
+                <p style={{fontSize: '20px', fontWeight: '600', color: '#111827', margin: 0}}>{client.financials.netWorth}</p>
+              </div>
+              <div>
+                <p style={{fontSize: '12px', color: '#6b7280', margin: '0 0 5px 0'}}>Portfolio Value</p>
+                <p style={{fontSize: '20px', fontWeight: '600', color: '#111827', margin: 0}}>{client.financials.portfolioValue}</p>
+              </div>
+              <div>
+                <p style={{fontSize: '12px', color: '#6b7280', margin: '0 0 5px 0'}}>Total Investments</p>
+                <p style={{fontSize: '20px', fontWeight: '600', color: '#111827', margin: 0}}>{client.financials.totalInvestments}</p>
+              </div>
+            </div>
+            
+            {/* Additional overview content can go here */}
+            <div style={{backgroundColor: 'white', padding: '20px', borderRadius: '8px', border: '1px solid #e5e7eb'}}>
+              <h3 style={{fontSize: '16px', fontWeight: '600', color: '#111827', margin: '0 0 15px 0'}}>Account Summary</h3>
+              <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px'}}>
+                <div>
+                  <p style={{fontSize: '12px', color: '#6b7280', margin: '0 0 5px 0'}}>Client ID</p>
+                  <p style={{fontSize: '14px', fontWeight: '500', color: '#111827', margin: 0}}>{clientId}</p>
+                </div>
+                <div>
+                  <p style={{fontSize: '12px', color: '#6b7280', margin: '0 0 5px 0'}}>Account Status</p>
+                  <p style={{fontSize: '14px', fontWeight: '500', color: '#10b981', margin: 0}}>Active</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'biography':
+        return (
+          <div>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px'}}>
+              {/* Personal Information */}
+              <div>
+                <h3 style={{fontSize: '14px', fontWeight: '600', color: '#111827', margin: '0 0 15px 0'}}>Personal Information</h3>
+                <div style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
+                  <div>
+                    <span style={{fontSize: '12px', color: '#6b7280'}}>Full Name: </span>
+                    <span style={{fontSize: '12px', color: '#111827', fontWeight: '500'}}>{biography.personalInfo.fullName}</span>
+                  </div>
+                  <div>
+                    <span style={{fontSize: '12px', color: '#6b7280'}}>Date of Birth: </span>
+                    <span style={{fontSize: '12px', color: '#111827'}}>{biography.personalInfo.dateOfBirth}</span>
+                  </div>
+                  <div>
+                    <span style={{fontSize: '12px', color: '#6b7280'}}>Birth Place: </span>
+                    <span style={{fontSize: '12px', color: '#111827'}}>{biography.personalInfo.birthPlace}</span>
+                  </div>
+                  <div>
+                    <span style={{fontSize: '12px', color: '#6b7280'}}>Marital Status: </span>
+                    <span style={{fontSize: '12px', color: '#111827'}}>{biography.personalInfo.maritalStatus}</span>
+                  </div>
+                  <div>
+                    <span style={{fontSize: '12px', color: '#6b7280'}}>Children: </span>
+                    <span style={{fontSize: '12px', color: '#111827'}}>{biography.personalInfo.children}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Education */}
+              <div>
+                <h3 style={{fontSize: '14px', fontWeight: '600', color: '#111827', margin: '0 0 15px 0'}}>Education</h3>
+                <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
+                  <div>
+                    <p style={{fontSize: '12px', color: '#111827', fontWeight: '500', margin: '0 0 2px 0'}}>Undergraduate</p>
+                    <p style={{fontSize: '11px', color: '#6b7280', margin: 0, lineHeight: '1.4'}}>{biography.education.undergraduate}</p>
+                  </div>
+                  <div>
+                    <p style={{fontSize: '12px', color: '#111827', fontWeight: '500', margin: '0 0 2px 0'}}>Graduate</p>
+                    <p style={{fontSize: '11px', color: '#6b7280', margin: 0, lineHeight: '1.4'}}>{biography.education.graduate}</p>
+                  </div>
+                  <div>
+                    <p style={{fontSize: '12px', color: '#111827', fontWeight: '500', margin: '0 0 2px 0'}}>Certifications</p>
+                    <p style={{fontSize: '11px', color: '#6b7280', margin: 0, lineHeight: '1.4'}}>{biography.education.certifications}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Career History */}
+            <div style={{marginTop: '25px'}}>
+              <h3 style={{fontSize: '14px', fontWeight: '600', color: '#111827', margin: '0 0 15px 0'}}>Career History</h3>
+              <div style={{display: 'flex', flexDirection: 'column', gap: '15px'}}>
+                {biography.careerHistory.map((job, index) => (
+                  <div key={index} style={{borderLeft: '2px solid #e5e7eb', paddingLeft: '15px', position: 'relative'}}>
+                    <div style={{position: 'absolute', left: '-5px', top: '5px', width: '8px', height: '8px', backgroundColor: '#3b82f6', borderRadius: '50%'}}></div>
+                    <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '5px'}}>
+                      <h4 style={{fontSize: '13px', fontWeight: '600', color: '#111827', margin: 0}}>{job.position}</h4>
+                      <span style={{fontSize: '11px', color: '#6b7280'}}>{job.duration}</span>
+                    </div>
+                    <p style={{fontSize: '12px', color: '#3b82f6', margin: '0 0 5px 0'}}>{job.company}</p>
+                    <p style={{fontSize: '11px', color: '#6b7280', margin: 0, lineHeight: '1.4'}}>{job.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Achievements & Interests */}
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px', marginTop: '25px'}}>
+              <div>
+                <h3 style={{fontSize: '14px', fontWeight: '600', color: '#111827', margin: '0 0 15px 0'}}>Achievements</h3>
+                <ul style={{margin: 0, paddingLeft: '15px'}}>
+                  {biography.achievements.map((achievement, index) => (
+                    <li key={index} style={{fontSize: '11px', color: '#6b7280', marginBottom: '5px', lineHeight: '1.4'}}>{achievement}</li>
+                  ))}
+                </ul>
+              </div>
+              
+              <div>
+                <h3 style={{fontSize: '14px', fontWeight: '600', color: '#111827', margin: '0 0 15px 0'}}>Interests</h3>
+                <ul style={{margin: 0, paddingLeft: '15px'}}>
+                  {biography.interests.map((interest, index) => (
+                    <li key={index} style={{fontSize: '11px', color: '#6b7280', marginBottom: '5px', lineHeight: '1.4'}}>{interest}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'news':
+        return (
+          <div>
+            <div style={{marginBottom: '20px'}}>
+              <h3 style={{fontSize: '16px', fontWeight: '600', color: '#111827', margin: 0}}>Recent News & Social Activity</h3>
+            </div>
+            
+            <div style={{display: 'flex', flexDirection: 'column', gap: '15px', maxHeight: '600px', overflowY: 'auto', paddingRight: '10px'}}>
+              {client.recentNews.map((news) => (
+                <div key={news.id} style={{display: 'flex', alignItems: 'flex-start', gap: '10px', backgroundColor: 'white', padding: '15px', borderRadius: '8px', border: '1px solid #e5e7eb'}}>
+                  <div style={{width: '20px', height: '20px', border: '2px solid #9ca3af', backgroundColor: '#f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '0px', flexShrink: 0}}>
+                    <div style={{width: '8px', height: '5px', borderLeft: '2px solid #6b7280', borderBottom: '2px solid #6b7280', transform: 'rotate(-45deg)', marginTop: '-2px'}}></div>
+                  </div>
+                  <div style={{flex: 1}}>
+                    <p style={{fontSize: '13px', color: '#111827', fontWeight: '500', margin: '0 0 5px 0', lineHeight: '1.3'}}>{news.title}</p>
+                    <p style={{fontSize: '13px', color: '#6b7280', margin: '0 0 5px 0', lineHeight: '1.4'}}>{news.description}</p>
+                    <div style={{display: 'flex', alignItems: 'center', gap: '15px', fontSize: '11px', color: '#9ca3af'}}>
+                      <span>
+                        Source: 
+                        <a 
+                          href={news.sourceUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          style={{color: '#3b82f6', textDecoration: 'none', marginLeft: '4px'}}
+                          onMouseEnter={(e) => e.target.style.textDecoration = 'underline'}
+                          onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
+                        >
+                          {news.source}
+                        </a>
+                      </span>
+                      <span>{news.timestamp}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+
+      case 'family':
+        return (
+          <div>
+            <h3 style={{fontSize: '16px', fontWeight: '600', color: '#111827', margin: '0 0 20px 0'}}>Family Tree</h3>
+            <FamilyTree data={familyData} />
+          </div>
+        );
+
+      default:
+        return <div>Tab content not found</div>;
+    }
+  };
 
   return (
     <Layout>
@@ -50,156 +244,43 @@ export default function ClientProfile() {
           </div>
         </div>
 
-        {/* Financial Stats */}
-        <div style={{display: 'flex', gap: '40px', marginBottom: '30px'}}>
-          <div>
-            <p style={{fontSize: '12px', color: '#6b7280', margin: '0 0 5px 0'}}>Net Worth</p>
-            <p style={{fontSize: '20px', fontWeight: '600', color: '#111827', margin: 0}}>{client.financials.netWorth}</p>
-          </div>
-          <div>
-            <p style={{fontSize: '12px', color: '#6b7280', margin: '0 0 5px 0'}}>Portfolio Value</p>
-            <p style={{fontSize: '20px', fontWeight: '600', color: '#111827', margin: 0}}>{client.financials.portfolioValue}</p>
-          </div>
-          <div>
-            <p style={{fontSize: '12px', color: '#6b7280', margin: '0 0 5px 0'}}>Total Investments</p>
-            <p style={{fontSize: '20px', fontWeight: '600', color: '#111827', margin: 0}}>{client.financials.totalInvestments}</p>
-          </div>
+        {/* Tab Navigation */}
+        <div style={{display: 'flex', borderBottom: '1px solid #e5e7eb', marginBottom: '30px'}}>
+          {tabs.map((tab) => (
+            <button
+              key={tab.key}
+              onClick={() => setActiveTab(tab.key)}
+              style={{
+                padding: '12px 24px',
+                border: 'none',
+                backgroundColor: 'transparent',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '500',
+                color: activeTab === tab.key ? '#3b82f6' : '#6b7280',
+                borderBottom: activeTab === tab.key ? '2px solid #3b82f6' : '2px solid transparent',
+                transition: 'all 0.2s ease',
+                outline: 'none'
+              }}
+              onMouseEnter={(e) => {
+                if (activeTab !== tab.key) {
+                  e.target.style.color = '#374151';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (activeTab !== tab.key) {
+                  e.target.style.color = '#6b7280';
+                }
+              }}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
 
-        {/* Biography Section - NOW FIRST */}
-        <div style={{marginBottom: '30px'}}>
-          <h2 style={{fontSize: '18px', fontWeight: '600', color: '#111827', margin: '0 0 20px 0'}}>Biography</h2>
-          
-          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px'}}>
-{/* Personal Information */}
-<div>
-  <h3 style={{fontSize: '14px', fontWeight: '600', color: '#111827', margin: '0 0 15px 0'}}>Personal Information</h3>
-  <div style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
-    <div>
-      <span style={{fontSize: '12px', color: '#6b7280'}}>Full Name: </span>
-      <span style={{fontSize: '12px', color: '#111827', fontWeight: '500'}}>{biography.personalInfo.fullName}</span>
-    </div>
-    <div>
-      <span style={{fontSize: '12px', color: '#6b7280'}}>Date of Birth: </span>
-      <span style={{fontSize: '12px', color: '#111827'}}>{biography.personalInfo.dateOfBirth}</span>
-    </div>
-    <div>
-      <span style={{fontSize: '12px', color: '#6b7280'}}>Birth Place: </span>
-      <span style={{fontSize: '12px', color: '#111827'}}>{biography.personalInfo.birthPlace}</span>
-    </div>
-    <div>
-      <span style={{fontSize: '12px', color: '#6b7280'}}>Marital Status: </span>
-      <span style={{fontSize: '12px', color: '#111827'}}>{biography.personalInfo.maritalStatus}</span>
-    </div>
-    <div>
-      <span style={{fontSize: '12px', color: '#6b7280'}}>Children: </span>
-      <span style={{fontSize: '12px', color: '#111827'}}>{biography.personalInfo.children}</span>
-    </div>
-  </div>
-</div>
-
-            {/* Education */}
-            <div>
-              <h3 style={{fontSize: '14px', fontWeight: '600', color: '#111827', margin: '0 0 15px 0'}}>Education</h3>
-              <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
-                <div>
-                  <p style={{fontSize: '12px', color: '#111827', fontWeight: '500', margin: '0 0 2px 0'}}>Undergraduate</p>
-                  <p style={{fontSize: '11px', color: '#6b7280', margin: 0, lineHeight: '1.4'}}>{biography.education.undergraduate}</p>
-                </div>
-                <div>
-                  <p style={{fontSize: '12px', color: '#111827', fontWeight: '500', margin: '0 0 2px 0'}}>Graduate</p>
-                  <p style={{fontSize: '11px', color: '#6b7280', margin: 0, lineHeight: '1.4'}}>{biography.education.graduate}</p>
-                </div>
-                <div>
-                  <p style={{fontSize: '12px', color: '#111827', fontWeight: '500', margin: '0 0 2px 0'}}>Certifications</p>
-                  <p style={{fontSize: '11px', color: '#6b7280', margin: 0, lineHeight: '1.4'}}>{biography.education.certifications}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Career History */}
-          <div style={{marginTop: '25px'}}>
-            <h3 style={{fontSize: '14px', fontWeight: '600', color: '#111827', margin: '0 0 15px 0'}}>Career History</h3>
-            <div style={{display: 'flex', flexDirection: 'column', gap: '15px'}}>
-              {biography.careerHistory.map((job, index) => (
-                <div key={index} style={{borderLeft: '2px solid #e5e7eb', paddingLeft: '15px', position: 'relative'}}>
-                  <div style={{position: 'absolute', left: '-5px', top: '5px', width: '8px', height: '8px', backgroundColor: '#3b82f6', borderRadius: '50%'}}></div>
-                  <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '5px'}}>
-                    <h4 style={{fontSize: '13px', fontWeight: '600', color: '#111827', margin: 0}}>{job.position}</h4>
-                    <span style={{fontSize: '11px', color: '#6b7280'}}>{job.duration}</span>
-                  </div>
-                  <p style={{fontSize: '12px', color: '#3b82f6', margin: '0 0 5px 0'}}>{job.company}</p>
-                  <p style={{fontSize: '11px', color: '#6b7280', margin: 0, lineHeight: '1.4'}}>{job.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Achievements & Interests */}
-          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px', marginTop: '25px'}}>
-            <div>
-              <h3 style={{fontSize: '14px', fontWeight: '600', color: '#111827', margin: '0 0 15px 0'}}>Achievements</h3>
-              <ul style={{margin: 0, paddingLeft: '15px'}}>
-                {biography.achievements.map((achievement, index) => (
-                  <li key={index} style={{fontSize: '11px', color: '#6b7280', marginBottom: '5px', lineHeight: '1.4'}}>{achievement}</li>
-                ))}
-              </ul>
-            </div>
-            
-            <div>
-              <h3 style={{fontSize: '14px', fontWeight: '600', color: '#111827', margin: '0 0 15px 0'}}>Interests</h3>
-              <ul style={{margin: 0, paddingLeft: '15px'}}>
-                {biography.interests.map((interest, index) => (
-                  <li key={index} style={{fontSize: '11px', color: '#6b7280', marginBottom: '5px', lineHeight: '1.4'}}>{interest}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-
-{/* Recent News & Social Activity */}
-<div style={{marginBottom: '30px'}}>
-  <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px'}}>
-    <h2 style={{fontSize: '18px', fontWeight: '600', color: '#111827', margin: 0}}>Recent News & Social Activity</h2>
-    <span style={{fontSize: '12px', color: '#3b82f6', cursor: 'pointer'}}>→</span>
-  </div>
-  
-  <div style={{display: 'flex', flexDirection: 'column', gap: '15px'}}>
-    {client.recentNews.map((news) => (
-      <div key={news.id} style={{display: 'flex', alignItems: 'flex-start', gap: '10px'}}>
-        <div style={{width: '20px', height: '20px', border: '2px solid #9ca3af', backgroundColor: '#f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '0px', flexShrink: 0}}>
-          <div style={{width: '8px', height: '5px', borderLeft: '2px solid #6b7280', borderBottom: '2px solid #6b7280', transform: 'rotate(-45deg)', marginTop: '-2px'}}></div>
-        </div>
-        <div style={{flex: 1}}>
-          <p style={{fontSize: '13px', color: '#111827', fontWeight: '500', margin: '0 0 5px 0', lineHeight: '1.3'}}>{news.title}</p>
-          <p style={{fontSize: '13px', color: '#6b7280', margin: '0 0 5px 0', lineHeight: '1.4'}}>{news.description}</p>
-          <div style={{display: 'flex', alignItems: 'center', gap: '15px', fontSize: '11px', color: '#9ca3af'}}>
-            <span>
-              Source: 
-              <a 
-                href={news.sourceUrl} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                style={{color: '#3b82f6', textDecoration: 'none', marginLeft: '4px'}}
-                onMouseEnter={(e) => e.target.style.textDecoration = 'underline'}
-                onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
-              >
-                {news.source}
-              </a>
-            </span>
-            <span>{news.timestamp}</span>
-          </div>
-        </div>
-      </div>
-    ))}
-  </div>
-</div>
-
-        {/* Family Tree */}
+        {/* Tab Content */}
         <div>
-            <h2 style={{fontSize: '18px', fontWeight: '600', color: '#111827', margin: '0 0 20px 0'}}>Family Tree</h2>
-            <FamilyTree data={familyData} />
+          {renderTabContent()}
         </div>
       </div>
     </Layout>
