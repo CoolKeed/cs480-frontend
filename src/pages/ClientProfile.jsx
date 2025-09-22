@@ -21,6 +21,319 @@ export default function ClientProfile() {
     { key: 'news', label: 'News & Activity' },
     { key: 'family', label: 'Family Tree' }
   ];
+
+  // PDF generation function
+  const generatePDF = () => {
+    try {
+      const printWindow = window.open('', '_blank');
+      
+      const pdfContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>${client.name} - Client Profile</title>
+          <style>
+            body {
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+              margin: 20px;
+              color: #111827;
+              line-height: 1.5;
+            }
+            .header {
+              display: flex;
+              align-items: center;
+              gap: 15px;
+              margin-bottom: 30px;
+              padding-bottom: 20px;
+              border-bottom: 2px solid #e5e7eb;
+            }
+            .avatar {
+              width: 60px;
+              height: 60px;
+              background-color: #3b82f6;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: white;
+              font-size: 24px;
+              font-weight: 600;
+            }
+            .client-info h1 {
+              font-size: 28px;
+              font-weight: bold;
+              margin: 0 0 5px 0;
+            }
+            .client-info p {
+              font-size: 14px;
+              color: #6b7280;
+              margin: 0;
+            }
+            .section {
+              margin-bottom: 30px;
+              page-break-inside: avoid;
+            }
+            .section-title {
+              font-size: 18px;
+              font-weight: 600;
+              margin: 0 0 15px 0;
+              color: #111827;
+              border-bottom: 1px solid #e5e7eb;
+              padding-bottom: 5px;
+            }
+            .financial-stats {
+              display: grid;
+              grid-template-columns: repeat(3, 1fr);
+              gap: 20px;
+              margin-bottom: 20px;
+            }
+            .stat-item {
+              padding: 15px;
+              background-color: #f9fafb;
+              border-radius: 8px;
+              border: 1px solid #e5e7eb;
+            }
+            .stat-label {
+              font-size: 12px;
+              color: #6b7280;
+              margin-bottom: 5px;
+            }
+            .stat-value {
+              font-size: 18px;
+              font-weight: 600;
+              color: #111827;
+            }
+            .bio-grid {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 30px;
+              margin-bottom: 25px;
+            }
+            .info-group {
+              margin-bottom: 15px;
+            }
+            .info-group h3 {
+              font-size: 14px;
+              font-weight: 600;
+              margin: 0 0 10px 0;
+            }
+            .info-item {
+              margin-bottom: 8px;
+              font-size: 12px;
+            }
+            .info-label {
+              color: #6b7280;
+              font-weight: normal;
+            }
+            .info-value {
+              color: #111827;
+              font-weight: 500;
+            }
+            .career-item {
+              border-left: 2px solid #e5e7eb;
+              padding-left: 15px;
+              margin-bottom: 15px;
+              position: relative;
+            }
+            .career-item::before {
+              content: '';
+              position: absolute;
+              left: -5px;
+              top: 5px;
+              width: 8px;
+              height: 8px;
+              background-color: #3b82f6;
+              border-radius: 50%;
+            }
+            .career-title {
+              font-size: 13px;
+              font-weight: 600;
+              margin: 0 0 5px 0;
+            }
+            .career-company {
+              font-size: 12px;
+              color: #3b82f6;
+              margin: 0 0 5px 0;
+            }
+            .career-duration {
+              font-size: 11px;
+              color: #6b7280;
+              float: right;
+            }
+            .career-desc {
+              font-size: 11px;
+              color: #6b7280;
+              line-height: 1.4;
+            }
+            .news-item {
+              border: 1px solid #e5e7eb;
+              border-radius: 8px;
+              padding: 15px;
+              margin-bottom: 15px;
+              background-color: #ffffff;
+            }
+            .news-title {
+              font-size: 13px;
+              font-weight: 500;
+              margin: 0 0 5px 0;
+            }
+            .news-desc {
+              font-size: 13px;
+              color: #6b7280;
+              margin: 0 0 5px 0;
+            }
+            .news-meta {
+              font-size: 11px;
+              color: #9ca3af;
+            }
+            ul {
+              margin: 0;
+              padding-left: 15px;
+            }
+            li {
+              font-size: 11px;
+              color: #6b7280;
+              margin-bottom: 5px;
+              line-height: 1.4;
+            }
+            @media print {
+              body { margin: 0; }
+              .section { page-break-inside: avoid; }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <div class="avatar">${client.avatar}</div>
+            <div class="client-info">
+              <h1>${client.name}</h1>
+              <p>${client.title} • ${client.company}</p>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2 class="section-title">Financial Overview</h2>
+            <div class="financial-stats">
+              <div class="stat-item">
+                <div class="stat-label">Net Worth</div>
+                <div class="stat-value">${client.financials.netWorth}</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Portfolio Value</div>
+                <div class="stat-value">${client.financials.portfolioValue}</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Total Investments</div>
+                <div class="stat-value">${client.financials.totalInvestments}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2 class="section-title">Biography</h2>
+            <div class="bio-grid">
+              <div class="info-group">
+                <h3>Personal Information</h3>
+                <div class="info-item">
+                  <span class="info-label">Full Name: </span>
+                  <span class="info-value">${biography.personalInfo.fullName}</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Date of Birth: </span>
+                  <span class="info-value">${biography.personalInfo.dateOfBirth}</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Birth Place: </span>
+                  <span class="info-value">${biography.personalInfo.birthPlace}</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Marital Status: </span>
+                  <span class="info-value">${biography.personalInfo.maritalStatus}</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Children: </span>
+                  <span class="info-value">${biography.personalInfo.children}</span>
+                </div>
+              </div>
+
+              <div class="info-group">
+                <h3>Education</h3>
+                <div class="info-item">
+                  <strong>Undergraduate:</strong><br>
+                  ${biography.education.undergraduate}
+                </div>
+                <div class="info-item">
+                  <strong>Graduate:</strong><br>
+                  ${biography.education.graduate}
+                </div>
+                <div class="info-item">
+                  <strong>Certifications:</strong><br>
+                  ${biography.education.certifications}
+                </div>
+              </div>
+            </div>
+
+            <div class="info-group">
+              <h3>Career History</h3>
+              ${biography.careerHistory.map(job => `
+                <div class="career-item">
+                  <div class="career-title">${job.position} <span class="career-duration">${job.duration}</span></div>
+                  <div class="career-company">${job.company}</div>
+                  <div class="career-desc">${job.description}</div>
+                </div>
+              `).join('')}
+            </div>
+
+            <div class="bio-grid">
+              <div class="info-group">
+                <h3>Achievements</h3>
+                <ul>
+                  ${biography.achievements.map(achievement => `<li>${achievement}</li>`).join('')}
+                </ul>
+              </div>
+              <div class="info-group">
+                <h3>Interests</h3>
+                <ul>
+                  ${biography.interests.map(interest => `<li>${interest}</li>`).join('')}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2 class="section-title">Recent News & Social Activity</h2>
+            ${client.recentNews.map(news => `
+              <div class="news-item">
+                <div class="news-title">${news.title}</div>
+                <div class="news-desc">${news.description}</div>
+                <div class="news-meta">Source: ${news.source} • ${news.timestamp}</div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="section">
+            <h2 class="section-title">Family Tree</h2>
+            <p><em>Still figuring out...</em></p>
+          </div>
+        </body>
+        </html>
+      `;
+
+      printWindow.document.write(pdfContent);
+      printWindow.document.close();
+      
+      printWindow.onload = function() {
+        printWindow.print();
+        setTimeout(() => {
+          printWindow.close();
+        }, 1000);
+      };
+
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      alert('Error generating PDF. Please try again.');
+    }
+  };
   
   if (!client || !biography) {
     return (
@@ -40,7 +353,6 @@ export default function ClientProfile() {
       case 'overview':
         return (
           <div>
-            {/* Financial Stats */}
             <div style={{display: 'flex', gap: '40px', marginBottom: '30px'}}>
               <div>
                 <p style={{fontSize: '12px', color: '#6b7280', margin: '0 0 5px 0'}}>Net Worth</p>
@@ -56,7 +368,6 @@ export default function ClientProfile() {
               </div>
             </div>
             
-            {/* Additional overview content can go here */}
             <div style={{backgroundColor: 'white', padding: '20px', borderRadius: '8px', border: '1px solid #e5e7eb'}}>
               <h3 style={{fontSize: '16px', fontWeight: '600', color: '#111827', margin: '0 0 15px 0'}}>Account Summary</h3>
               <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px'}}>
@@ -77,7 +388,6 @@ export default function ClientProfile() {
         return (
           <div>
             <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px'}}>
-              {/* Personal Information */}
               <div>
                 <h3 style={{fontSize: '14px', fontWeight: '600', color: '#111827', margin: '0 0 15px 0'}}>Personal Information</h3>
                 <div style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
@@ -104,7 +414,6 @@ export default function ClientProfile() {
                 </div>
               </div>
 
-              {/* Education */}
               <div>
                 <h3 style={{fontSize: '14px', fontWeight: '600', color: '#111827', margin: '0 0 15px 0'}}>Education</h3>
                 <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
@@ -124,7 +433,6 @@ export default function ClientProfile() {
               </div>
             </div>
 
-            {/* Career History */}
             <div style={{marginTop: '25px'}}>
               <h3 style={{fontSize: '14px', fontWeight: '600', color: '#111827', margin: '0 0 15px 0'}}>Career History</h3>
               <div style={{display: 'flex', flexDirection: 'column', gap: '15px'}}>
@@ -142,7 +450,6 @@ export default function ClientProfile() {
               </div>
             </div>
 
-            {/* Achievements & Interests */}
             <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px', marginTop: '25px'}}>
               <div>
                 <h3 style={{fontSize: '14px', fontWeight: '600', color: '#111827', margin: '0 0 15px 0'}}>Achievements</h3>
@@ -220,7 +527,6 @@ export default function ClientProfile() {
   return (
     <Layout>
       <div style={{padding: '20px 30px', height: '100%', overflow: 'auto'}}>
-        {/* Back button */}
         <button 
           onClick={() => navigate('/')} 
           style={{marginBottom: '20px', padding: '8px 16px', border: '1px solid #d1d5db', borderRadius: '4px', backgroundColor: 'white', cursor: 'pointer', fontSize: '12px'}}
@@ -228,7 +534,6 @@ export default function ClientProfile() {
           ← Back to Dashboard
         </button>
 
-        {/* Client Header */}
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '30px'}}>
           <div style={{display: 'flex', alignItems: 'center', gap: '15px'}}>
             <div style={{width: '60px', height: '60px', backgroundColor: '#3b82f6', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '24px', fontWeight: '600'}}>
@@ -239,12 +544,39 @@ export default function ClientProfile() {
               <p style={{fontSize: '14px', color: '#6b7280', margin: 0}}>{client.title} • {client.company}</p>
             </div>
           </div>
-          <div style={{fontSize: '12px', color: '#6b7280'}}>
-            Updated 2 minutes ago
+          <div style={{display: 'flex', alignItems: 'center', gap: '15px'}}>
+            <button
+              onClick={generatePDF}
+              style={{
+                padding: '10px 20px',
+                backgroundColor: '#3b82f6',
+                color: 'white',
+                border: 'none',
+                borderRadius: '6px',
+                fontSize: '14px',
+                fontWeight: '500',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                transition: 'background-color 0.2s ease'
+              }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = '#2563eb'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = '#3b82f6'}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7,10 12,15 17,10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              Download PDF
+            </button>
+            <div style={{fontSize: '12px', color: '#6b7280'}}>
+              Updated 2 minutes ago
+            </div>
           </div>
         </div>
 
-        {/* Tab Navigation */}
         <div style={{display: 'flex', borderBottom: '1px solid #e5e7eb', marginBottom: '30px'}}>
           {tabs.map((tab) => (
             <button
@@ -278,7 +610,6 @@ export default function ClientProfile() {
           ))}
         </div>
 
-        {/* Tab Content */}
         <div>
           {renderTabContent()}
         </div>
